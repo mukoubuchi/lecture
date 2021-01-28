@@ -1,0 +1,51 @@
+float theta =0 ;
+float phi=0 ;
+float delta=0 ;
+float startAngle = 0 ;
+float diameter=400 ;
+int[] toggle = {0, 1} ;
+int i=0 ;
+int j=0 ;
+float angle = 0 ;
+float ellapseTime = 0 ;
+
+void setup() {
+  size(600, 600) ;
+  strokeWeight(50) ;
+  strokeCap(SQUARE) ;
+  noFill() ;
+  stroke(0, 0, 255, 200) ;
+}
+
+void draw() {
+  background(255) ;
+  translate(width/2, height/2) ;
+  if (angle >= TWO_PI) angle = 0 ;
+  rotate(angle) ;
+  if (toggle[i] == 0) {
+    arc(0, 0, 
+      diameter, diameter, 
+      radians(startAngle), 
+      radians(phi+theta)) ;
+    theta += lerp(1, 30, theta / 300) ;
+    if (theta >= 300) {
+      delta=phi+300 ;
+      theta =0 ;
+      i = (i + 1) % 2 ;
+    }
+    angle += lerp(0.05, 0.05, theta / 300) ;
+  } else if (toggle[i] == 1) {
+    arc(0, 0, 
+      diameter, diameter, 
+      radians(phi+theta), 
+      radians(delta)) ;
+    theta += lerp(1, 20, theta / 270) ;
+    if (theta >= 270) {
+      i = (i + 1) % 2 ;
+      startAngle = phi + theta ;
+      phi = delta ;
+      theta = 0 ;
+    }
+    angle += lerp(0.05, 0.05, theta / 270) ;
+  }
+}
